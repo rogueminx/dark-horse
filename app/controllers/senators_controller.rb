@@ -11,7 +11,7 @@ class SenatorsController < ApplicationController
     end
 
     @senators = {"senator": "Bernie"}
-    json_response(@arr)
+    json_response(response)
   end
 
   private

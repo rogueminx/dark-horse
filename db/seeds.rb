@@ -1,39 +1,24 @@
-# require  'open-uri'
-# require 'json'
-#
-# Senator.destroy_all
-#
-# open("h") do |senators|
-#   data = []
-#   senators.read.each_line do |senator|
-#     @item = JSON.parse(senator)
-#       puts(@item)
-#   #     object = {
-#   #       "firstname":  @item["firstname"],
-#   #     }
-#   #     data << object
-#   # end
-#   # Senator.create!(data)
-#   end
-# end
-#
-#
-#
-#
-#
-#
-# Publication.delete_all
-#
-# open("https://raw.githubusercontent.com/chrisjmendez/ror-subscriptions/master/db/seed_data/publications.json") do |publications|
-#   data = []
-#   publications.read.each_line do |publication|
-#     @item = JSON.parse(publication)
-#       object = {
-#     		"title":        @item["title"],
-#     		"description":  @item["description"],
-#     		"file_url":     @item["file_url"]
-#       }
-#       data << object
-#   end
-#   Publication.create!(data)
-# end
+require 'pry'
+Senator.destroy_all
+
+class Seed
+
+  def self.begin
+    seed = Seed.new
+    seed.generate_senators
+  end
+
+  def generate_senators
+    response = JSON.parse(File.read(Rails.root + 'app/controllers/senators.json'))
+    response['objects'].each do |object|
+      @firstname = object['person']['firstname']
+      @lastname = object['person']['lastname']
+      @state = object['state']
+
+      Senator.create!(firstname: @firstname, lastname: @lastname, state: @state)
+      puts "Created Senator #{@firstname} #{@lastname} from #{@state}."
+    end
+  end
+end
+
+Seed.begin
