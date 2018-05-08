@@ -20,7 +20,7 @@ class SenatorsController < ApplicationController
   def update
     @senator = Senator.find(params[:id])
     if @senator.update!(contact_params)
-      render status: 200, json: {
+      render status: 204, json: {
       message: "Your senator has been updated successfully."
       }
     end
