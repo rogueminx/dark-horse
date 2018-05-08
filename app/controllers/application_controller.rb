@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   include Response
-
+  include ActionController::HttpAuthentication::Token::ControllerMethods
   # failed show / get
   rescue_from ActiveRecord::RecordNotFound do |exception|
     json_response({ message: exception.message }, :not_found)
@@ -10,4 +10,6 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordInvalid do |exception|
     json_response({ message: exception.message }, :partial_content)
   end
+
+
 end
