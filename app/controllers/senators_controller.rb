@@ -1,11 +1,17 @@
-
+require 'pry'
 
 class SenatorsController < ApplicationController
 
   def index
-    @json = JSON.parse(File.read(Rails.root + 'app/controllers/senators.json'))
+    response = JSON.parse(File.read(Rails.root + 'app/controllers/senators.json'))
+    @arr = []
+
+    response['objects'].each do |object|
+      @arr.push(object['person']['firstname'])
+    end
+
     @senators = {"senator": "Bernie"}
-    json_response(@json)
+    json_response(@arr)
   end
 
   private
