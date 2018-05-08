@@ -19,7 +19,7 @@ class SenatorsController < ApplicationController
 
   def update
     @senator = Senator.find(params[:id])
-    if @senator.update!(senator_params)
+    if @senator.update!(contact_params)
       render status: 200, json: {
       message: "Your senator has been updated successfully."
       }
@@ -40,7 +40,8 @@ class SenatorsController < ApplicationController
     params.permit(:firstname, :lastname, :state)
   end
 
-  def json_response(object)
-    render json: object, status: :ok
+  def contact_params
+    params.permit(:contact_form, :address, :phone)
   end
+
 end
