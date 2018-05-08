@@ -3,18 +3,43 @@ require 'pry'
 class SenatorsController < ApplicationController
 
   def index
-    response = JSON.parse(File.read(Rails.root + 'app/controllers/senators.json'))
-    @arr = []
+    @senators = Senator.all
+    json_response(@senators)
+  end
 
-    response['objects'].each do |object|
-      @arr.push(object['person']['firstname'])
+  def show
+    @senator = Senator.find(params[:id])
+    json_response(@senator)
+  end
+
+  def create
+    @senator = Senator.create!(senator_params)
+    json_response(@senator, :created)
+  end
+
+  def update
+    @senator = Senator.find(params[:id])
+    if @senator.update!(senator_params)
+      render status: 200, json: {
+      message: "Your senator has been updated successfully."
+      }
     end
+  end
 
-    @senators = {"senator": "Bernie"}
-    json_response(response)
+  def destroy
+    @senator = Senator.find(params[:id])
+    if @senator.destroy
+      render status: 200, json: {
+      message: "Your senator has been deleted successfully."
+      }
+    end
   end
 
   private
+  def senator_params
+    params.permit(:firstname, :lastname, :state)
+  end
+
   def json_response(object)
     render json: object, status: :ok
   end
