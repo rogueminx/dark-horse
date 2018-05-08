@@ -1,6 +1,4 @@
-class Senators
 
-@people =
 {
  "meta": {
   "limit": 100,
@@ -5153,6 +5151,3 @@ class Senators
   }
  ]
 }
-
-
-end
